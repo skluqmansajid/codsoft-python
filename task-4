@@ -1,66 +1,88 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from random import randint
+
+# Create the main window
 root = Tk()
 root.title("Rock Scissor Paper")
 root.configure(background="#119125")
-rock_img = ImageTk.PhotoImage(Image.open("/Users/akhib/Desktop/Game/rock-user.png"))
-paper_img = ImageTk.PhotoImage(Image.open("/Users/akhib/Desktop/Game/paper-user.png"))
-scissor_img = ImageTk.PhotoImage(Image.open("/Users/akhib/Desktop/Game/scissors-user.png"))
-rock_img_comp = ImageTk.PhotoImage(Image.open("/Users/akhib/Desktop/Game/rock.png"))
-paper_img_comp = ImageTk.PhotoImage(Image.open("/Users/akhib/Desktop/Game/paper.png"))
-scissor_img_comp = ImageTk.PhotoImage(Image.open("/Users/akhib/Desktop/Game/scissors.png"))
+
+# Load images
+rock_img = ImageTk.PhotoImage(Image.open("C:/Users/T 480 S/OneDrive/Desktop/wise/IMG-20240720-WA0006.jpg"))
+paper_img = ImageTk.PhotoImage(Image.open("C:/Users/T 480 S/OneDrive/Desktop/wise/IMG-20240720-WA0004.jpg"))
+scissor_img = ImageTk.PhotoImage(Image.open("C:/Users/T 480 S/OneDrive/Desktop/wise/IMG-20240720-WA0008.jpg"))
+rock_img_comp = ImageTk.PhotoImage(Image.open("C:/Users/T 480 S/OneDrive/Desktop/wise/IMG-20240720-WA0007.jpg"))
+paper_img_comp = ImageTk.PhotoImage(Image.open("C:/Users/T 480 S/OneDrive/Desktop/wise/IMG-20240720-WA0005.jpg"))
+scissor_img_comp = ImageTk.PhotoImage(Image.open("C:/Users/T 480 S/OneDrive/Desktop/wise/IMG-20240720-WA0009.jpg"))
+
+# Create labels for the user and computer images
 user_label = Label(root, image=scissor_img, bg="#119125")
 comp_label = Label(root, image=scissor_img_comp, bg="#119125")
 comp_label.grid(row=1, column=0)
 user_label.grid(row=1, column=4)
-playerScore = Label(root, text=0, font = ("arial", "40", "bold"), bg="#119125", fg="white")
-computerScore = Label(root, text=0, font = ("arial", "40", "bold"), bg="#119125", fg="white")
+
+# Create labels for the scores
+playerScore = Label(root, text=0, font=("arial", "40", "bold"), bg="#119125", fg="white")
+computerScore = Label(root, text=0, font=("arial", "40", "bold"), bg="#119125", fg="white")
 computerScore.grid(row=1, column=1)
 playerScore.grid(row=1, column=3)
-user_indicator = Label(root, font = ("arial", "20", "bold"), text="\n: USER : \n--------------------------", bg="#119125", fg="white")
-comp_indicator = Label(root, font = ("arial", "20", "bold"), text="\n: COMPUTER : \n--------------------------",bg="#119125", fg="white")
+
+# Create labels for the indicators
+user_indicator = Label(root, font=("arial", "20", "bold"), text="\n: USER : \n--------------------------", bg="#119125", fg="white")
+comp_indicator = Label(root, font=("arial", "20", "bold"), text="\n: COMPUTER : \n--------------------------", bg="#119125", fg="white")
 user_indicator.grid(row=0, column=4)
 comp_indicator.grid(row=0, column=0)
-msg = Label(root,  font = ("arial", "20", "bold"), bg="#119125", fg="#000000")
+
+# Create label for the message
+msg = Label(root, font=("arial", "20", "bold"), bg="#119125", fg="#000000")
 msg.grid(row=3, column=2)
+
+# Function to update the message
 def updateMessage(x):
     msg['text'] = x
+
+# Function to update the user score
 def updateUserScore():
     score = int(playerScore["text"])
     score += 1
     playerScore["text"] = str(score)
+
+# Function to update the computer score
 def updateCompScore():
     score = int(computerScore["text"])
     score += 1
     computerScore["text"] = str(score)
+
+# Function to check who wins
 def checkWin(player, computer):
     if player == computer:
-        updateMessage("Its a tie!!!")
+        updateMessage("It's a tie!!!")
     elif player == "rock":
         if computer == "paper":
-            updateMessage("You loose!!!")
+            updateMessage("You lose!!!")
             updateCompScore()
         else:
-            updateMessage("You Win!!!")
+            updateMessage("You win!!!")
             updateUserScore()
     elif player == "paper":
         if computer == "scissor":
-            updateMessage("You loose!!!")
+            updateMessage("You lose!!!")
             updateCompScore()
         else:
-            updateMessage("You Win!!!")
+            updateMessage("You win!!!")
             updateUserScore()
     elif player == "scissor":
         if computer == "rock":
-            updateMessage("You loose!!!")
+            updateMessage("You lose!!!")
             updateCompScore()
         else:
-            updateMessage("You Win!!!")
+            updateMessage("You win!!!")
             updateUserScore()
-    else:
-        pass
+
+# List of choices
 choices = ["rock", "paper", "scissor"]
+
+# Function to update the choice
 def updateChoice(x):
     compChoice = choices[randint(0, 2)]
     if compChoice == "rock":
@@ -76,8 +98,14 @@ def updateChoice(x):
     else:
         user_label.configure(image=scissor_img)
     checkWin(x, compChoice)
-rock = Button(root, width=20, height=2, font = ("arial", "10", "bold"), text="ROCK",bg="#FF0000", fg="#000000", command=lambda: updateChoice("rock")).grid(row=2, column=1)
-paper = Button(root, width=20, height=2, font = ("arial", "10", "bold"), text="PAPER",bg="#0000FF", fg="#000000", command=lambda: updateChoice("paper")).grid(row=2, column=2)
-scissor = Button(root, width=20, height=2, font = ("arial", "10", "bold"), text="SCISSOR",bg="#00FF00", fg="#000000", command=lambda: updateChoice("scissor")).grid(row=2, column=3)
 
+# Create buttons for the choices
+rock = Button(root, width=20, height=2, font=("arial", "10", "bold"), text="ROCK", bg="#FF0000", fg="#000000", command=lambda: updateChoice("rock"))
+rock.grid(row=2, column=1)
+paper = Button(root, width=20, height=2, font=("arial", "10", "bold"), text="PAPER", bg="#0000FF", fg="#000000", command=lambda: updateChoice("paper"))
+paper.grid(row=2, column=2)
+scissor = Button(root, width=20, height=2, font=("arial", "10", "bold"), text="SCISSOR", bg="#00FF00", fg="#000000", command=lambda: updateChoice("scissor"))
+scissor.grid(row=2, column=3)
+
+# Run the main loop
 root.mainloop()
