@@ -1,0 +1,126 @@
+from tkinter import *
+from tkinter import messagebox
+
+# Initialize the main window
+root = Tk()
+root.title("Contact Book")
+root.geometry("600x400")
+
+# Contact book data structure
+contacts = []
+
+# Function to add a contact
+def add_contact():
+    name = entry_name.get()
+    phone = entry_phone.get()
+    email = entry_email.get()
+    address = entry_address.get()
+
+    if name and phone and email and address:
+        contacts.append({"name": name, "phone": phone, "email": email, "address": address})
+        messagebox.showinfo("Success", "Contact added successfully!")
+        clear_entries()
+        display_contacts()
+    else:
+        messagebox.showwarning("Warning", "Please fill out all fields")
+
+# Function to display the contacts
+def display_contacts():
+    listbox_contacts.delete(0, END)
+    for contact in contacts:
+        listbox_contacts.insert(END, f"{contact['name']} - {contact['phone']}")
+
+# Function to clear entry fields
+def clear_entries():
+    entry_name.delete(0, END)
+    entry_phone.delete(0, END)
+    entry_email.delete(0, END)
+    entry_address.delete(0, END)
+
+# Function to search contacts
+def search_contact():
+    search_term = entry_search.get()
+    listbox_contacts.delete(0, END)
+    for contact in contacts:
+        if search_term.lower() in contact['name'].lower() or search_term in contact['phone']:
+            listbox_contacts.insert(END, f"{contact['name']} - {contact['phone']}")
+
+# Function to update contact
+def update_contact():
+    selected_contact = listbox_contacts.curselection()
+    if selected_contact:
+        index = selected_contact[0]
+        contacts[index] = {
+            "name": entry_name.get(),
+            "phone": entry_phone.get(),
+            "email": entry_email.get(),
+            "address": entry_address.get()
+        }
+        messagebox.showinfo("Success", "Contact updated successfully!")
+        clear_entries()
+        display_contacts()
+    else:
+        messagebox.showwarning("Warning", "Please select a contact to update")
+
+# Function to delete contact
+def delete_contact():
+    selected_contact = listbox_contacts.curselection()
+    if selected_contact:
+        index = selected_contact[0]
+        contacts.pop(index)
+        messagebox.showinfo("Success", "Contact deleted successfully!")
+        clear_entries()
+        display_contacts()
+    else:
+        messagebox.showwarning("Warning", "Please select a contact to delete")
+
+# UI Components
+frame = Frame(root, bg="#e0f7fa")
+frame.pack(pady=20)
+
+label_name = Label(frame, text="Name", bg="#e0f7fa")
+label_name.grid(row=0, column=0, padx=5, pady=5)
+entry_name = Entry(frame)
+entry_name.grid(row=0, column=1, padx=5, pady=5)
+
+label_phone = Label(frame, text="Phone", bg="#e0f7fa")
+label_phone.grid(row=1, column=0, padx=5, pady=5)
+entry_phone = Entry(frame)
+entry_phone.grid(row=1, column=1, padx=5, pady=5)
+
+label_email = Label(frame, text="Email", bg="#e0f7fa")
+label_email.grid(row=2, column=0, padx=5, pady=5)
+entry_email = Entry(frame)
+entry_email.grid(row=2, column=1, padx=5, pady=5)
+
+label_address = Label(frame, text="Address", bg="#e0f7fa")
+label_address.grid(row=3, column=0, padx=5, pady=5)
+entry_address = Entry(frame)
+entry_address.grid(row=3, column=1, padx=5, pady=5)
+
+button_add = Button(frame, text="Add Contact", command=add_contact, bg="#4caf50", fg="white")
+button_add.grid(row=4, column=0, padx=5, pady=5)
+
+button_update = Button(frame, text="Update Contact", command=update_contact, bg="#2196f3", fg="white")
+button_update.grid(row=4, column=1, padx=5, pady=5)
+
+button_delete = Button(frame, text="Delete Contact", command=delete_contact, bg="#f44336", fg="white")
+button_delete.grid(row=4, column=2, padx=5, pady=5)
+
+label_search = Label(root, text="Search", bg="#e0f7fa")
+label_search.pack(pady=5)
+entry_search = Entry(root)
+entry_search.pack(pady=5)
+button_search = Button(root, text="Search", command=search_contact, bg="#ff9800", fg="white")
+button_search.pack(pady=5)
+
+listbox_contacts = Listbox(root, width=50, bg="#ffffff")
+listbox_contacts.pack(pady=20)
+
+# Set the main window background color
+root.configure(bg="#e0f7fa")
+
+# Run the main loop
+root.mainloop()
+
+
